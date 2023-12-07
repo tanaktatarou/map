@@ -73,14 +73,16 @@ function calcRoute(){
     let request = {
         origin: start,
         destination: destination,
-        travelMode:'TRANSIT',
-    }
+        travelMode: 'WALKING',
+    };
 
     directionsService.route(request,function(result,status){
         if(status == "OK"){
             directionsRenderer.setDirections(result)
+        }else {
+            console.error("error:" + status);
         }
-    })
+    });
 }
 
 function setCurrentLocation() {
@@ -93,7 +95,7 @@ function setCurrentLocation() {
                 if (status === 'OK') {
                     document.getElementById('start').value = results[0].formatted_address;
                 } else {
-                    console.error('Geocoder failed due to: ' + status);
+                    console.error('error: ' + status);
                 }
             });
         }, () => {
