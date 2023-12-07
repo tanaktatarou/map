@@ -9,7 +9,7 @@ function initMap() {
         mapId: '2d3c97a609f17045' //I made it to make only restaurants visible
     }
 
-    map = new google.maps.Map(document.getElementById('map'), mapOptions);
+    let map = new google.maps.Map(document.getElementById('map'), mapOptions);
 
     let markers = []; 
     let infowindow = new google.maps.InfoWindow(); 
@@ -74,11 +74,19 @@ function calcRoute(){
         origin: start,
         destination: destination,
         travelMode: 'WALKING',
+        unitSystem: google.maps.UnitSystem.METRIC
     };
 
     directionsService.route(request,function(result,status){
         if(status == "OK"){
             directionsRenderer.setDirections(result)
+
+            var duration = result.routes[0].legs[0].duration.text;
+            var distance = result.routes[0].legs[0].distance.text;
+
+            document.getElementById('travelInfo').innerHTML = 
+                "Estimated Travel Time: " + duration + "<br>" +
+                "Distance: " + distance;
         }else {
             console.error("error:" + status);
         }
